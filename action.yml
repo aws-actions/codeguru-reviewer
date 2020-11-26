@@ -1,0 +1,19 @@
+name: 'AWS CodeGuru Security Scanner Action'
+description: 'AWS CodeGuru Security Scanner GitHub Action'
+branding:
+  icon: 'cloud'
+  color: 'orange'
+inputs:
+  src-root:
+    description: 'Path to Java source root e.g. src/main/java'
+    required: true
+  build-root:
+    description: 'Path to build artifact(s) - jar files in this directory will be uploaded for review'
+    required: true
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.src-root }}
+    - ${{ inputs.build-root }}
