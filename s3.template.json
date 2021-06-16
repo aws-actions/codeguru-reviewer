@@ -1,0 +1,186 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Resources": {
+    "CodeGuruReviewerBucket": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "BucketName": "codeguru-reviewer-my-bucket",
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
+                "SSEAlgorithm": "AES256"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "CodeGuruReviewerCICDActionsBucketPolicy": {
+      "Type": "AWS::S3::BucketPolicy",
+      "Properties": {
+        "PolicyDocument": {
+          "Id": "S3BucketPolicy",
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Sid": "DenyPublicReadACL",
+              "Effect": "Deny",
+              "Principal": {
+                "AWS": "*"
+              },
+              "Action": [
+                "s3:PutObject",
+                "s3:PutObjectAcl"
+              ],
+              "Resource": [
+                {
+                  "Fn::Sub": "${CodeGuruReviewerBucket.Arn}"
+                },
+                {
+                  "Fn::Sub": "${CodeGuruReviewerBucket.Arn}/*"
+                }
+              ],
+              "Condition": {
+                "StringEquals": {
+                  "s3:x-amz-acl": [
+                    "public-read",
+                    "public-read-write",
+                    "authenticated-read"
+                  ]
+                }
+              }
+            },
+            {
+              "Sid": "DenyPublicReadGrant",
+              "Effect": "Deny",
+              "Principal": {
+                "AWS": "*"
+              },
+              "Action": [
+                "s3:PutObject",
+                "s3:PutObjectAcl"
+              ],
+              "Resource": [
+                {
+                  "Fn::Sub": "${CodeGuruReviewerBucket.Arn}"
+                },
+                {
+                  "Fn::Sub": "${CodeGuruReviewerBucket.Arn}/*"
+                }
+              ],
+              "Condition": {
+                "StringEquals": {
+                  "s3:x-amz-grant-read": [
+                    "*http://acs.amazonaws.com/groups/global/AllUsers*",
+                    "*http://acs.amazonaws.com/groups/global/AuthenticatedUsers*"
+                  ]
+                }
+              }
+            },
+            {
+              "Sid": "DenyPublicListACL",
+              "Effect": "Deny",
+              "Principal": {
+                "AWS": "*"
+              },
+              "Action": "s3:PutBucketAcl",
+              "Resource": [
+                {
+                  "Fn::Sub": "${CodeGuruReviewerBucket.Arn}"
+                },
+                {
+                  "Fn::Sub": "${CodeGuruReviewerBucket.Arn}/*"
+                }
+              ],
+              "Condition": {
+                "StringEquals": {
+                  "s3:x-amz-acl": [
+                    "public-read",
+                    "public-read-write",
+                    "authenticated-read"
+                  ]
+                }
+              }
+            },
+            {
+              "Sid": "DenyPublicListGrant",
+              "Effect": "Deny",
+              "Principal": {
+                "AWS": "*"
+              },
+              "Action": "s3:PutBucketAcl",
+              "Resource": [
+                {
+                  "Fn::Sub": "${CodeGuruReviewerBucket.Arn}"
+                },
+                {
+                  "Fn::Sub": "${CodeGuruReviewerBucket.Arn}/*"
+                }
+              ],
+              "Condition": {
+                "StringEquals": {
+                  "s3:x-amz-grant-read": [
+                    "*http://acs.amazonaws.com/groups/global/AllUsers*",
+                    "*http://acs.amazonaws.com/groups/global/AuthenticatedUsers*"
+                  ]
+                }
+              }
+            },
+            {
+              "Sid": "DenyInSecureRequest",
+              "Effect": "Deny",
+              "Principal": "*",
+              "Action": "s3:*",
+              "Resource": [
+                {
+                  "Fn::Sub": "${CodeGuruReviewerBucket.Arn}"
+                },
+                {
+                  "Fn::Sub": "${CodeGuruReviewerBucket.Arn}/*"
+                }
+              ],
+              "Condition": {
+                "Bool": {
+                  "aws:SecureTransport": "false"
+                }
+              }
+            },
+            {
+              "Sid": "AllowS3WriteAccess",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": "arn:aws:iam::<aws_account_id>:root"
+              },
+              "Action": "s3:PutObject",
+              "Resource": [
+                {
+                  "Fn::Sub": "${CodeGuruReviewerBucket.Arn}/*"
+                }
+              ]
+            },
+            {
+              "Sid": "DenyS3ReadAccess",
+              "Effect": "Deny",
+              "Principal": "*",
+              "Action": "s3:GetObject",
+              "Resource": [
+                {
+                  "Fn::Sub": "${CodeGuruReviewerBucket.Arn}/*"
+                }
+              ],
+              "Condition": {
+                "StringNotLike": {
+                  "aws:PrincipalArn": "arn:aws:iam::<aws_account_id>:role/aws-service-role/codeguru-reviewer.amazonaws.com/AWSServiceRoleForAmazonCodeGuruReviewer"
+                }
+              }
+            }
+          ]
+        },
+        "Bucket": {
+          "Ref": "CodeGuruReviewerBucket"
+        }
+      }
+    }
+  }
+}

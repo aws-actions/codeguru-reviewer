@@ -49,7 +49,7 @@ with:
  
 
 
-Step 3: Upload Results to GitHub
+**Step 3: Upload Results to GitHub**
 
 After your job is completed, you can view your results within the AWS Console or GitHub. To view the results in GitHub, we recommend uploading the results generated in the SARIF (Static Analysis Results Interchange Format) into GitHub using the following example codeql-action. For more details, see the upload instructions in the [GitHub documentation](https://docs.github.com/en/code-security/secure-coding/uploading-a-sarif-file-to-github#example-workflow-for-sarif-files-generated-outside-of-a-repository).
 
