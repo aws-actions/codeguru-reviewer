@@ -98,11 +98,11 @@ After you run the CodeGuru Reviewer Action, security findings and code quality r
 
 The following is an example of CodeGuru Reviewer recommendations for a Push or Schedule event on the Security tab in the GitHub UI.
 
-![alt text](https://github.com/aws-actions/codeguru-reviewer/blob/Github-actions-release/images/recommendation_example_1.png)
+![alt text](./images/recommendation_example_1.png)
 
 The following is an example of CodeGuru Reviewer recommendations for a Pull Request event in the Pull Request view.
 
-![alt text](https://github.com/aws-actions/codeguru-reviewer/blob/Github-actions-release/images/recommendation_example_2.png)
+![alt text](./images/recommendation_example_2.png)
 
 ## Security
 
