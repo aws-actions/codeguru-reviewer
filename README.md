@@ -96,6 +96,14 @@ steps:
 
 After you run the CodeGuru Reviewer Action, security findings and code quality recommendations are posted on the Security tab in the GitHub UI and in the Code Reviews section of the CodeGuru Reviewer console.
 
+The following is an example of CodeGuru Reviewer recommendations for a Push or Schedule event on the Security tab in the GitHub UI.
+
+![alt text](https://github.com/aws-actions/codeguru-reviewer/blob/Github-actions-release/images/recommendation_example_1.png)
+
+The following is an example of CodeGuru Reviewer recommendations for a Pull Request event in the Pull Request view.
+
+![alt text](https://github.com/aws-actions/codeguru-reviewer/blob/Github-actions-release/images/recommendation_example_2.png)
+
 ## Security
 
 See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
