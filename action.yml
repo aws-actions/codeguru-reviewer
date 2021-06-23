@@ -13,7 +13,7 @@ inputs:
     default: .
     required: false
   build_path:
-    description: 'Path to build artifact(s) - jar files in this directory will be uploaded for review'
+    description: 'Path to build artifact(s) - jar or class files in this directory will be uploaded for review'
     required: false
   destination_commit:
     description: 'SHA of next commit to be committed to source code repository after an event'
@@ -51,7 +51,7 @@ inputs:
     default: ${{ github.event_name }}
     required: false
   event_state:
-    description: 'State of the event that triggered the CI/CD workflow [example: pull_request: *opened*]'
+    description: 'State of the event that triggered the CI/CD workflow [example: pull_request: "opened"]'
     default: ${{ github.event.action }}
     required: false
   client_id:
@@ -59,7 +59,7 @@ inputs:
     default: GithubActions@v1
     required: false
   s3_bucket:
-    description: 'S3 Bucket which will be associated with the Repository Association'
+    description: 'S3 Bucket which will be used for code reviews'
     required: true
   vendor_name:
     description: 'Vendor Name(e.g. GITHUB, GITLAB) for CI/CD.'
