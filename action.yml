@@ -1,19 +1,110 @@
-name: 'AWS CodeGuru Security Scanner Action'
-description: 'AWS CodeGuru Security Scanner GitHub Action'
+name: 'AWS CodeGuru Reviewer Action'
+description: 'AWS CodeGuru Reviewer Action'
 branding:
   icon: 'cloud'
   color: 'orange'
 inputs:
-  src-root:
-    description: 'Path to Java source root e.g. src/main/java'
+  name:
+    description: 'Repository name'
+    default: ${{ github.repository }}
+    required: false
+  source_path:
+    description: 'Path to Java source repository'
+    default: .
+    required: false
+  build_path:
+    description: 'Path to build artifact(s) - jar or class files in this directory will be uploaded for review'
+    required: false
+  destination_commit:
+    description: 'SHA of next commit to be committed to source code repository after an event'
+    default: ${{ github.event.before || github.event.pull_request.base.sha }}
+    required: false
+  source_commit:
+    description: 'SHA of previous commit in the source code repository existed before an event'
+    default: ${{ github.event.after || github.event.pull_request.head.sha }}
+    required: false
+  merge_base_commit:
+    description: 'SHA of a commit thats the merge base for before and after commits in a pull or merge request'
+    default: ${{ github.event.pull_request.merge_commit_sha }}
+    required: false
+  source_branch:
+    description: 'Source branch of the event'
+    default: ${{ github.head_ref || github.ref}}
+    required: false
+  destination_branch:
+    description: 'Destination branch of the event'
+    default: ${{ github.base_ref || github.ref }}
+    required: false
+  kms_key_id:
+    description: 'AWS KMS Key ID to use for encrypting source code/build artifacts. By default, Amazon-owned encryption key is used. Supplying this value overrides it to use Customer-owned encryption key'
+    required: false
+  author:
+    description: 'Author/Actor who triggered an event in the source code repository'
+    default: ${{ github.event.actor }}
+    required: false
+  event_id:
+    description: 'An identifier for the event that triggered CodeGuru Reviewer Analysis, e.g. Pull or Merge request id'
+    default: ${{ github.event.number || github.run_number }}
+    required: false
+  event_name:
+    description: 'Name of the event that triggered the CI/CD workflow [supported Events: push, pull, merge_request_event, schedule, workflow_dispatch]'
+    default: ${{ github.event_name }}
+    required: false
+  event_state:
+    description: 'State of the event that triggered the CI/CD workflow [example: pull_request: "opened"]'
+    default: ${{ github.event.action }}
+    required: false
+  client_id:
+    description: 'Unique identifier referring to a specific client version'
+    default: GithubActions@v1
+    required: false
+  s3_bucket:
+    description: 'S3 Bucket which will be used for code reviews'
     required: true
-  build-root:
-    description: 'Path to build artifact(s) - jar files in this directory will be uploaded for review'
-    required: true
+  vendor_name:
+    description: 'Vendor Name(e.g. GITHUB, GITLAB) for CI/CD.'
+    default: GITHUB
+    required: false
+  output_format:
+    description: 'Expected format for the results (e.g SARIF, SAST, JENKINS)'
+    default: SARIF
+    required: false
 
 runs:
   using: 'docker'
-  image: 'Dockerfile'
+  image: docker://public.ecr.aws/i6i1s7m3/codegurureviewer-actions-public:latest
   args:
-    - ${{ inputs.src-root }}
-    - ${{ inputs.build-root }}
+    - --name
+    - ${{ inputs.name }}
+    - --source_path
+    - ${{ inputs.source_path }}
+    - --build_path
+    - ${{ inputs.build_path }}
+    - --destination_branch
+    - ${{ inputs.destination_branch }}
+    - --before_commit_sha
+    - ${{ inputs.destination_commit }}
+    - --source_branch
+    - ${{ inputs.source_branch }}
+    - --after_commit_sha
+    - ${{ inputs.source_commit }}
+    - --kms_key_id
+    - ${{ inputs.kms_key_id }}
+    - --agent
+    - ${{ inputs.author }}
+    - --merge_commit_sha
+    - ${{ inputs.merge_base_commit }}
+    - --event_id
+    - ${{ inputs.event_id }}
+    - --event_name
+    - ${{ inputs.event_name }}
+    - --event_state
+    - ${{ inputs.event_state }}
+    - --client_id
+    - ${{ inputs.client_id }}
+    - --s3_bucket
+    - ${{ inputs.s3_bucket }}
+    - --vendor_name
+    - ${{ inputs.vendor_name }}
+    - --output_format
+    - ${{ inputs.output_format }}
