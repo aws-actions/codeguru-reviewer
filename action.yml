@@ -1,4 +1,4 @@
-name: 'AWS CodeGuru Reviewer Action'
+name: 'CodeGuru Reviewer'
 description: 'AWS CodeGuru Reviewer Action'
 branding:
   icon: 'cloud'
