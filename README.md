@@ -43,8 +43,8 @@ Input Parameters:
 * kms_key_id: **Optional**. A customer created kms key for encrypting your code. If not provided, CodeGuru Reviewer will encrypt your code using a kms key that AWS owns and manages for you.
 
 ```
-- name: AWS CodeGuru Reviewer Scanner
-  uses: aws-actions/codeguru-reviewer@v1
+- name: CodeGuru Reviewer
+  uses: aws-actions/codeguru-reviewer@v1.1
   with:
     build_path: target # build artifact(s) directory
     s3_bucket: codeguru-reviewer-myactions-bucket # S3 Bucket with "codeguru-reviewer-*" prefix
@@ -80,8 +80,8 @@ steps:
     aws-region: us-west-2  # Region to access CodeGuru 
 
 # Step 2: Add CodeGuru Reviewer Action
-- name: AWS CodeGuru Reviewer Scanner
-  uses: aws-actions/codeguru-reviewer@v1
+- name: CodeGuru Reviewer
+  uses: aws-actions/codeguru-reviewer@v1.1
   with:
     build_path: target # build artifact(s) directory
     s3_bucket: codeguru-reviewer-my-bucket  # S3 Bucket with "codeguru-reviewer-*" prefix
