@@ -47,7 +47,7 @@ Input Parameters:
   uses: aws-actions/codeguru-reviewer@v1
   with:
     build_path: target # build artifact(s) directory
-    s3_bucket: 'codeguru-reviewer-myactions-bucket' # S3 Bucket with "codeguru-reviewer-*" prefix
+    s3_bucket: codeguru-reviewer-myactions-bucket # S3 Bucket with "codeguru-reviewer-*" prefix
 ```
 
 **Step 3: Upload Results to GitHub**
@@ -63,9 +63,9 @@ After your job is completed, you can view your results within the AWS Console or
 
 Example:
 
+```
 steps:
 
-```
 # Step 1: Checkout the repository and provide your AWS credentials
 - name: Checkout repository
   uses: actions/checkout@v2
