@@ -56,6 +56,7 @@ After your job is completed, you can view your results within the AWS Console or
 
 ```
 - name: Upload review result
+  if: ${{ github.event_name != 'push' }}
   uses: github/codeql-action/upload-sarif@v1
   with:
     sarif_file: codeguru-results.sarif.json # Your results file will be named codeguru-results.sarif.json
@@ -88,6 +89,7 @@ steps:
  
 # Step 3: Upload results into GitHub
 - name: Upload review result
+  if: ${{ github.event_name != 'push' }}
   uses: github/codeql-action/upload-sarif@v1
   with:
     sarif_file: codeguru-results.sarif.json
