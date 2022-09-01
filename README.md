@@ -11,7 +11,9 @@ Amazon CodeGuru Reviewer action can be triggered by a pull request, push, or sch
 * Push - Code quality and security recommendations are shown in the security tab
 * Manual / Scheduled runs - Code quality and security recommendations are shown in the security tab
 
-You can read more about setup in [Amazon CodeGuru Reviewer document](https://docs.aws.amazon.com/codeguru/latest/reviewer-ug/working-with-cicd.html). To add CodeGuru Reviewer into your CI/CD pipeline, do the following.
+For more information about setup, see [Create code reviews with GitHubActions](https://docs.aws.amazon.com/codeguru/latest/reviewer-ug/working-with-cicd.html) in the *Amazon CodeGuru Reviewer User Guide*. 
+
+To add CodeGuru Reviewer to your CI/CD pipeline, follow the steps under the *Usage* section.
 
 ## Usage
 
