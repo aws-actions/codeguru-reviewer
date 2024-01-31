@@ -92,7 +92,7 @@ steps:
 # Step 3: Upload results into GitHub
 - name: Upload review result
   if: ${{ github.event_name != 'push' }}
-  uses: github/codeql-action/upload-sarif@v1
+  uses: github/codeql-action/upload-sarif@v2
   with:
     sarif_file: codeguru-results.sarif.json
 ```
